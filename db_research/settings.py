@@ -15,6 +15,15 @@ class ClickhouseSettings(BaseSettings):
     port: int = Field(9000, env='CLICKHOUSE_PORT')
 
 
+class VerticaSettings(BaseSettings):
+    host: str = Field('127.0.0.1', env='VERTICA_HOST')
+    port: int = Field(5433, env='VERTICA_PORT')
+    user: str = Field('dbadmin', env='VERTICA_USER')
+    password: str = Field('', env='VERTICA_USER_PASS')
+    database: str = Field('docker', env='VERTICA_DB')
+    autocommit: bool = Field(True, env='VERTICA_AUTOCOMMIT')
+
+
 @lru_cache
 def get_base_settings() -> BaseConfig:
     return BaseConfig()
@@ -25,5 +34,11 @@ def get_ch_settings() -> ClickhouseSettings:
     return ClickhouseSettings()
 
 
+@lru_cache
+def get_vertica_settings() -> VerticaSettings:
+    return VerticaSettings()
+
+
 base_settings = get_base_settings()
 ch_settings = get_ch_settings()
+vertica_settings = get_vertica_settings()
