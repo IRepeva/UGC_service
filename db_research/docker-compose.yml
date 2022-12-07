@@ -16,3 +16,9 @@ services:
       - ./clickhouse/configs:/etc/clickhouse-server
     depends_on:
       - zookeeper
+
+  vertica:
+    image: jbfavre/vertica:latest
+    container_name: vertica
+    ports:
+      - "5433:5433"
