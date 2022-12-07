@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+  zookeeper:
+    image: zookeeper:3.5
+    container_name: zookeeper
+    hostname: zookeeper
+
+  clickhouse:
+    image: yandex/clickhouse-server:20.4
+    container_name: clickhouse
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./deploy/clickhouse_init.sql:/docker-entrypoint-initdb.d/clickhouse_init.sql
+      - ./clickhouse/configs:/etc/clickhouse-server
+    depends_on:
+      - zookeeper
