@@ -12,7 +12,8 @@ from db_research.utils import benchmark
 
 faker = Faker()
 DEFAULT_USER_ID, DEFAULT_MOVIE_ID = '1', '1'
-TEST_BATCH_COUNTS = (100, 1000)
+TEST_BATCH_COUNTS = (100, 1000, 5000)
+TEST_BATCH_COUNTS_MONGO = (10, 50)
 
 Test = namedtuple('Test', ['name', 'query', 'table_name'])
 
