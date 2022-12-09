@@ -9,9 +9,6 @@ __pycache__/
 env
 venv
 
-# scripts
-*.sh
-
 # other
 **/.idea
 

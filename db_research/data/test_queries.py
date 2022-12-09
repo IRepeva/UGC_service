@@ -11,6 +11,7 @@ from db_research.settings import base_settings
 from db_research.utils import benchmark
 
 faker = Faker()
+
 DEFAULT_USER_ID, DEFAULT_MOVIE_ID = '1', '1'
 TEST_BATCH_COUNTS = (100, 1000, 5000)
 TEST_BATCH_COUNTS_MONGO = (10, 50)
@@ -76,7 +77,7 @@ def get_movie_reviews_sort_time(
             test_data.query, test_data.table_name
         )
         if review:
-            review.sort("date_created", DESCENDING)
+            review.sort("date", DESCENDING)
         manager.aggregate(avg_rating_test.query, avg_rating_test.table_name)
 
     run_test(get_review_test)
