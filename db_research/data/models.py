@@ -69,7 +69,7 @@ class Reviews(BaseDataClass):
             'user_id': user_id,
             'movie_id': movie_id,
             'text': faker.text(),
-            'date_created': get_random_date(),
+            'date': get_random_date(),
         }
 
 
