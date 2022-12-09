@@ -8,6 +8,8 @@ from src.models.film import (
     FilmRating, FilmVote, FilmVotePost, ReviewLike, ReviewLikePost, FilmReview,
     FilmReviewPost, FilmReviewDetails
 )
+from src.models.user import Bookmark
+from src.services.bookmark import BookmarkService, get_bookmark_service
 from src.services.like import LikeService, get_like_service
 from src.services.review import ReviewService, get_review_service
 from src.utils.authentication import get_token_payload, security
@@ -204,5 +206,53 @@ async def review_film(
             status_code=HTTPStatus.NOT_FOUND,
             detail=f'The error occurred during deleting '
                    f'the review {review_id} rating'
+        )
+    return result
+
+
+@router.post("{film_id}/bookmark", response_model=Bookmark,
+             summary='Add movie to bookmarks')
+async def rate_film(
+        film_id: str,
+        bookmark_service: BookmarkService = Depends(get_bookmark_service),
+        token: namedtuple = Depends(security)
+) -> Bookmark:
+    token_payload = get_token_payload(token.credentials)
+    if not (user_id := token_payload.get('user_id')):
+        raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
+
+    result = await bookmark_service.add_bookmark(
+        user_id=user_id,
+        movie_id=film_id
+    )
+    if not result:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail=f'The error occurred during adding '
+            f'movie {film_id} to bookmarks'
+        )
+    return result
+
+
+@router.delete("{film_id}/bookmark", response_model=Bookmark,
+               summary='Delete movie from bookmarks')
+async def rate_film(
+        film_id: str,
+        bookmark_service: BookmarkService = Depends(get_bookmark_service),
+        token: namedtuple = Depends(security)
+) -> Bookmark:
+    token_payload = get_token_payload(token.credentials)
+    if not (user_id := token_payload.get('user_id')):
+        raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
+
+    result = await bookmark_service.delete_bookmark(
+        user_id=user_id,
+        movie_id=film_id
+    )
+    if not result:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail=f'The error occurred during deleting '
+            f'movie {film_id} from bookmarks'
         )
     return result
