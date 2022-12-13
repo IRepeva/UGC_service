@@ -4,7 +4,6 @@ from functools import lru_cache
 from fastapi import Depends
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import ReturnDocument
-
 from src.db.mongo import get_mongo
 from src.models.film import FilmRating, FilmVote
 from src.models.user import UserLikes
