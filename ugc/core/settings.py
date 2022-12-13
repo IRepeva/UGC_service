@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     MONGO_PORT: int = Field(27017, env='MONGO_PORT')
     MONGO_DB: str = Field('movies', env='MONGO_DB')
 
+    # LOGS
+    SENTRY_DSN: str = Field(..., env='SENTRY_DSN')
+
 
 @lru_cache
 def get_settings() -> Settings:

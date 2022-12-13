@@ -1,15 +1,18 @@
 import logging
 
+import sentry_sdk
 import uvicorn as uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
-from src.core.config import settings
-from src.core.logger import LOGGING
+from sentry_sdk.integrations.fastapi import FastApiIntegration
 
+from core.logger import LOGGING
 from core.settings import settings
 from src.api.v1 import films, users
 from src.db import mongo
+
+sentry_sdk.init(integrations=[FastApiIntegration()])
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
