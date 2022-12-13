@@ -8,20 +8,20 @@ run_and_config_db_research:
 	chmod +x ./db_research/deploy/mongo_setup.sh && \
 	sh ./db_research/deploy/mongo_setup.sh
 
-run_and_config_ugc_mongo:
-	docker-compose -f ugc_service_mongo/docker-compose.yml up -d --build && \
-	chmod +x ./ugc_service_mongo/deploy/mongodb/mongo_setup.sh && \
-	sh ./ugc_service_mongo/deploy/mongodb/mongo_setup.sh
+run_and_config_ugc:
+	docker-compose -f ugc/docker-compose.yml up -d --build && \
+	chmod +x ./ugc/deploy/mongodb/mongo_setup.sh && \
+	sh ./ugc/deploy/mongodb/mongo_setup.sh
 
-run_ugc_mongo:
-	@docker-compose -f ugc_service_mongo/docker-compose.yml up -d --build
+run_ugc:
+	@docker-compose -f ugc/docker-compose.yml up -d --build
 
 config_mongo:
-	chmod +x ./ugc_service_mongo/deploy/mongodb/mongo_setup.sh && \
-	sh ./ugc_service_mongo/deploy/mongodb/mongo_setup.sh
+	chmod +x ./ugc/deploy/mongodb/mongo_setup.sh && \
+	sh ./ugc/deploy/mongodb/mongo_setup.sh
 
 
 fill_mongo_test_data:
-	cd ugc_service_mongo && \
-	docker-compose exec -it ugc_mongo python src/utils/fill_db.py && \
+	cd ugc && \
+	docker-compose exec -it ugc python src/utils/fill_db.py && \
 	cd ..

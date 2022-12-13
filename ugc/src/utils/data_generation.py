@@ -1,7 +1,7 @@
 import datetime
 import random
 
-from src.core.config import settings
+from core.settings import settings
 from src.services.base import BaseService
 
 NOW = '01/12/2022 19:03:43'

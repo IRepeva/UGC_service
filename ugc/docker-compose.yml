@@ -1,11 +1,11 @@
 version: '3.5'
 
 services:
-  ugc_mongo:
+  ugc:
     build:
-      context: ./ugc_service_mongo
+      context: ./ugc
       dockerfile: Dockerfile
-    container_name: ugc_mongo
+    container_name: ugc
     depends_on:
       - shard01-a
     ports:
@@ -23,7 +23,7 @@ services:
     ports:
       - '80:80'
     depends_on:
-      - ugc_mongo
+      - ugc
 
   ###### MONGO ######
 

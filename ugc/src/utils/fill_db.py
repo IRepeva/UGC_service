@@ -4,7 +4,7 @@ import time
 from pymongo import MongoClient
 
 sys.path.append('.')
-from src.core.config import settings
+from core.settings import settings
 from src.services.bookmark import BookmarkService
 from src.services.like import LikeService
 from src.services.review import ReviewService

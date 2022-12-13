@@ -1,8 +1,7 @@
 from abc import abstractmethod
 
+from core.settings import settings
 from motor.motor_asyncio import AsyncIOMotorClient
-
-from src.core.config import settings
 
 
 class BaseService:

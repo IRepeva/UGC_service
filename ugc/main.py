@@ -4,10 +4,11 @@ import uvicorn as uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
-
-from src.api.v1 import films, users
 from src.core.config import settings
 from src.core.logger import LOGGING
+
+from core.settings import settings
+from src.api.v1 import films, users
 from src.db import mongo
 
 app = FastAPI(
@@ -30,13 +31,17 @@ async def startup():
 
 @app.on_event("shutdown")
 async def shutdown():
-    await mongo.mongo.close()
-    logging.debug('mongodb successfully closed')
+    try:
+        await mongo.mongo.close()
+        logging.debug('mongodb successfully closed')
+    except Exception as e:
+        logging.exception(
+            f'The following exception occurred while closing connection: {e}'
+        )
 
 
 app.include_router(films.router, prefix='/api/v1/films', tags=['films'])
 app.include_router(users.router, prefix='/api/v1/users', tags=['users'])
-
 
 if __name__ == '__main__':
     uvicorn.run(

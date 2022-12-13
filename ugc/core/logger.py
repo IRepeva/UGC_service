@@ -6,8 +6,9 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'verbose': {
-            'format': LOG_FORMAT
+        'base': {
+            'format': LOG_FORMAT,
+            "datefmt": "%Y-%m-%d %H:%M:%S"
         },
         'default': {
             '()': 'uvicorn.logging.DefaultFormatter',
@@ -23,7 +24,7 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
+            'formatter': 'base',
         },
         'default': {
             'formatter': 'default',
@@ -52,7 +53,7 @@ LOGGING = {
     },
     'root': {
         'level': 'INFO',
-        'formatter': 'verbose',
+        'formatter': 'base',
         'handlers': LOG_DEFAULT_HANDLERS,
     },
 }

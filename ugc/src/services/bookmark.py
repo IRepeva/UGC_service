@@ -2,7 +2,6 @@ from functools import lru_cache
 
 from fastapi import Depends
 from motor.motor_asyncio import AsyncIOMotorClient
-
 from src.db.mongo import get_mongo
 from src.models.user import Bookmarks, Bookmark
 from src.services.base import BaseService

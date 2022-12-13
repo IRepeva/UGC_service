@@ -7,7 +7,6 @@ from faker import Faker
 from fastapi import Depends
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import ReturnDocument
-
 from src.db.mongo import get_mongo
 from src.models.film import FilmReview, FilmReviewDetails, ReviewLike
 from src.services.base import BaseService
