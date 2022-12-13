@@ -25,6 +25,54 @@ services:
     depends_on:
       - ugc
 
+  logstash:
+      image: docker.elastic.co/logstash/logstash:7.10.2
+      container_name: logstash
+      environment:
+        XPACK_MONITORING_ENABLED: "false"
+        ES_HOST: "elasticsearch:9200"
+      ports:
+        - "5044:5044/udp"
+      volumes:
+        - ./deploy/logs/logstash.conf:/config/logstash.conf:ro
+        - /tmp/logs/nginx/:/var/log/nginx/:ro
+      command: logstash -f /config/logstash.conf
+      depends_on:
+        - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.3.2
+    container_name: filebeat
+    volumes:
+      - /tmp/logs/nginx:/var/log/nginx:ro
+      - ./deploy/logs/filebeat.yml:/usr/share/filebeat/filebeat.yml
+    command: filebeat -e -strict.perms=false
+    depends_on:
+      - ugc
+      - nginx
+      - logstash
+      - elasticsearch
+      - kibana
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms200m -Xmx200m
+    ports:
+      - "9200:9200"
+    volumes:
+      - /tmp/esdata:/tmp/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.2
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
   ###### MONGO ######
 
   #### Routers ####

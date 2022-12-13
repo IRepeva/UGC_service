@@ -4,6 +4,7 @@ import sentry_sdk
 import uvicorn as uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
+from logstash_async.handler import AsynchronousLogstashHandler
 from motor.motor_asyncio import AsyncIOMotorClient
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 
@@ -20,6 +21,11 @@ app = FastAPI(
     openapi_url='/api/openapi.json',
     default_response_class=ORJSONResponse,
 )
+
+app.logger = logging.getLogger(__name__)
+app.logger.setLevel(logging.INFO)
+logstash_handler = AsynchronousLogstashHandler('logstash', 5044, None)
+app.logger.addHandler(logstash_handler)
 
 
 @app.on_event('startup')
