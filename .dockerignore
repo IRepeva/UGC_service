@@ -1,0 +1,19 @@
+# git
+**/.git
+**/.gitignore
+
+# Environments
+**/.env
+**/.env.test
+
+**/Dockerfile
+README.md
+**/docker-compose.yml
+
+# python environments
+**/venv
+
+# Byte-compiled / optimized / DLL files / ect.
+**/.pytest_cache
+**/__pycache__
+*.pyc

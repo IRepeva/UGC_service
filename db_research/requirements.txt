@@ -1,0 +1,4 @@
+pymongo==4.3.3
+clickhouse_driver==0.2.5
+Faker==15.3.4
+vertica-python==1.1.1
