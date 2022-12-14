@@ -1,4 +1,4 @@
-import time
+from typing import Optional, List, Dict, Union, Tuple
 
 from clickhouse_driver import Client
 
@@ -17,7 +17,8 @@ class ClickhouseManager(BaseDBManager):
     def client(self):
         return Client(host=self.host, port=self.port)
 
-    def insert(self, fake_data: dict, table_name: str = DEFAULT_TABLE_NAME):
+    def insert(self, fake_data: List[Union[Dict, Tuple]],
+               table_name: Optional[str] = DEFAULT_TABLE_NAME):
         self.client.execute(f'INSERT INTO {table_name} VALUES', fake_data)
 
     def clear_table(self, table_name: str = DEFAULT_TABLE_NAME):

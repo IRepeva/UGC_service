@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import List, Dict, Tuple, Union
+from typing import List, Dict, Tuple, Union, Optional
 
 import vertica_python
 
@@ -31,7 +31,7 @@ class VerticaManager(BaseDBManager):
             cursor.execute(f'TRUNCATE TABLE {table_name}')
 
     def insert(self, fake_data: List[Union[Dict, Tuple]],
-               table_name: str = DEFAULT_TABLE_NAME):
+               table_name: Optional[str] = DEFAULT_TABLE_NAME):
         insert_query = f'''
             INSERT INTO {table_name} {DEFAULT_TABLE_FIELDS} 
             VALUES (%s,%s,%s,%s)

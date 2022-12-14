@@ -1,4 +1,3 @@
-from collections import namedtuple
 from typing import Union, List, Tuple
 
 from db_research.base_manager import BaseDBManager
@@ -15,7 +14,7 @@ DATA_TO_USE = (Likes, Bookmarks, Reviews, ReviewLikes)
 
 def run(manager: BaseDBManager,
         data_to_use: Union[List[BaseDataClass], Tuple[BaseDataClass]],
-        tests: Tuple[namedtuple],
+        tests: Tuple,
         batch_counts: Union[Tuple, List] = TEST_BATCH_COUNTS_MONGO,
         iterations: int = base_settings.iterations_count) -> None:
     manager.create_db()
