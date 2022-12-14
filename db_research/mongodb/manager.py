@@ -1,4 +1,4 @@
-from typing import Union, Dict
+from typing import Union, Dict, Optional, List, Tuple
 
 from pymongo import MongoClient
 
@@ -21,8 +21,8 @@ class MongoDBManager(BaseDBManager):
         client = MongoClient(self.host, self.port)
         return client.get_database(self.db_name)
 
-    def insert(self, fake_data: dict,
-               collection_name: str = DEFAULT_TABLE_NAME):
+    def insert(self, fake_data: List[Union[Dict, Tuple]],
+               collection_name: Optional[str] = DEFAULT_TABLE_NAME):
         collection = self.database.get_collection(collection_name)
         try:
             collection.insert_many(fake_data)

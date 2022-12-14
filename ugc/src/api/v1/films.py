@@ -1,4 +1,3 @@
-from collections import namedtuple
 from http import HTTPStatus
 from typing import List
 
@@ -44,7 +43,7 @@ async def rate_film(
         film_id: str,
         film_vote: FilmVotePost,
         like_service: LikeService = Depends(get_like_service),
-        token: namedtuple = Depends(security)
+        token=Depends(security)
 ) -> FilmVote:
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
@@ -74,7 +73,7 @@ async def rate_film(
 async def delete_film_vote(
         film_id: str,
         like_service: LikeService = Depends(get_like_service),
-        token: namedtuple = Depends(security)
+        token=Depends(security)
 ) -> FilmVote:
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
@@ -100,7 +99,7 @@ async def film_reviews(
         film_id: str,
         sort: str | None = None,
         review_service: ReviewService = Depends(get_review_service),
-        token: namedtuple = Depends(security)
+        token=Depends(security)
 ) -> List[FilmReviewDetails]:
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
@@ -119,7 +118,7 @@ async def review_film(
         film_id: str,
         film_review: FilmReviewPost,
         review_service: ReviewService = Depends(get_review_service),
-        token: namedtuple = Depends(security)
+        token=Depends(security)
 ) -> FilmReview:
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
@@ -140,10 +139,10 @@ async def review_film(
 
 @router.delete("/{film_id}/review", response_model=FilmReview,
                summary='Delete movie review')
-async def review_film(
+async def delete_movie_review(
         film_id: str,
         review_service: ReviewService = Depends(get_review_service),
-        token: namedtuple = Depends(security)) -> FilmReview:
+        token=Depends(security)) -> FilmReview:
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
@@ -162,12 +161,12 @@ async def review_film(
 
 @router.post("/{film_id}/{review_id}", response_model=ReviewLike,
              summary='Rate movie review')
-async def review_film(
+async def rate_review(
         film_id: str,
         review_id: str,
         like_review: ReviewLikePost,
         review_service: ReviewService = Depends(get_review_service),
-        token: namedtuple = Depends(security)) -> ReviewLike:
+        token=Depends(security)) -> ReviewLike:
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
@@ -187,11 +186,11 @@ async def review_film(
 
 @router.delete("/{film_id}/{review_id}", response_model=ReviewLike,
                summary='Delete review like')
-async def review_film(
+async def delete_review_rating(
         film_id: str,
         review_id: str,
         review_service: ReviewService = Depends(get_review_service),
-        token: namedtuple = Depends(security)) -> ReviewLike:
+        token=Depends(security)) -> ReviewLike:
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
@@ -211,10 +210,10 @@ async def review_film(
 
 @router.post("{film_id}/bookmark", response_model=Bookmark,
              summary='Add movie to bookmarks')
-async def rate_film(
+async def add_movie_bookmark(
         film_id: str,
         bookmark_service: BookmarkService = Depends(get_bookmark_service),
-        token: namedtuple = Depends(security)
+        token=Depends(security)
 ) -> Bookmark:
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
@@ -228,17 +227,17 @@ async def rate_film(
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
             detail=f'The error occurred during adding '
-            f'movie {film_id} to bookmarks'
+                   f'movie {film_id} to bookmarks'
         )
     return result
 
 
 @router.delete("{film_id}/bookmark", response_model=Bookmark,
                summary='Delete movie from bookmarks')
-async def rate_film(
+async def delete_movie_bookmark(
         film_id: str,
         bookmark_service: BookmarkService = Depends(get_bookmark_service),
-        token: namedtuple = Depends(security)
+        token=Depends(security)
 ) -> Bookmark:
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
@@ -252,6 +251,6 @@ async def rate_film(
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
             detail=f'The error occurred during deleting '
-            f'movie {film_id} from bookmarks'
+                   f'movie {film_id} from bookmarks'
         )
     return result

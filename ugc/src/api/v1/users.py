@@ -1,4 +1,3 @@
-from collections import namedtuple
 from http import HTTPStatus
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -21,7 +20,6 @@ async def get_bookmarks(
         user_id: str,
         bookmark_service: BookmarkService = Depends(get_bookmark_service)
 ) -> Bookmarks:
-
     bookmarks = await bookmark_service.get_user_bookmarks(user_id)
     if not bookmarks:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
@@ -33,9 +31,8 @@ async def get_bookmarks(
             summary="Get user's likes films")
 async def rate_film(
         like_service: LikeService = Depends(get_like_service),
-        token: namedtuple = Depends(security)
+        token=Depends(security)
 ) -> UserLikes:
-
     token_payload = get_token_payload(token.credentials)
     if not (user_id := token_payload.get('user_id')):
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)

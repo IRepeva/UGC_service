@@ -1,6 +1,7 @@
 import datetime
 import random
 from abc import abstractmethod
+from typing import Optional
 
 from faker import Faker
 
@@ -13,7 +14,7 @@ faker = Faker()
 
 
 class BaseDataClass:
-    TABLE_NAME = None
+    TABLE_NAME: Optional[str] = None
 
     @classmethod
     @abstractmethod

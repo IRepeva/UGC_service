@@ -1,5 +1,6 @@
 import time
 from abc import abstractmethod
+from typing import Optional, List, Union, Dict, Tuple
 
 from db_research.data.models import BaseDataClass
 from db_research.data_generator import BaseDataGenerator
@@ -18,7 +19,7 @@ CREATE_DEFAULT_TABLE = f'''
 
 
 class BaseDBManager:
-    DB_NAME = None
+    DB_NAME: Optional[str] = None
 
     def create_db(self, create_table_query: str = CREATE_DEFAULT_TABLE):
         ...
@@ -31,7 +32,8 @@ class BaseDBManager:
         ...
 
     @abstractmethod
-    def insert(self, fake_data: dict, table_name: str = DEFAULT_TABLE_NAME):
+    def insert(self, fake_data: List[Union[Dict, Tuple]],
+               table_name: Optional[str] = DEFAULT_TABLE_NAME):
         ...
 
     def fill_db(self, data_class: BaseDataClass, batch_count: int,
@@ -45,5 +47,6 @@ class BaseDBManager:
         return time.perf_counter() - start
 
     @abstractmethod
-    def get_data(self, query: str, table_name: str = DEFAULT_TABLE_NAME):
+    def get_data(self, query: Union[tuple, list, str],
+                 table_name: str = DEFAULT_TABLE_NAME):
         ...
