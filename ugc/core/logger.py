@@ -1,4 +1,5 @@
-LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+BASE_LOG_FORMAT = "%(asctime)s.%(msecs)03d - %(levelname)s - %(request_id)s - %(module)s.%(funcName)s::%(lineno)d - %(message)s"
+NGINX_FORMAT = "%(asctime)s.%(msecs)03d - %(levelname)s - %(client_addr)s - %(request_id)s - '%(request_line)s' - %(status_code)s"
 LOG_DEFAULT_HANDLERS = ['console', ]
 
 
@@ -7,7 +8,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'base': {
-            'format': LOG_FORMAT,
+            'format': BASE_LOG_FORMAT,
             "datefmt": "%Y-%m-%d %H:%M:%S"
         },
         'default': {
@@ -17,7 +18,8 @@ LOGGING = {
         },
         'access': {
             '()': 'uvicorn.logging.AccessFormatter',
-            'fmt': "%(levelprefix)s %(client_addr)s - '%(request_line)s' %(status_code)s",
+            'fmt': NGINX_FORMAT,
+            "datefmt": "%Y-%m-%d %H:%M:%S"
         },
     },
     'handlers': {

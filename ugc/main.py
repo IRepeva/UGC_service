@@ -1,8 +1,10 @@
+import contextvars
 import logging
+import uuid
 
 import sentry_sdk
 import uvicorn as uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import ORJSONResponse
 from logstash_async.handler import AsynchronousLogstashHandler
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -14,6 +16,9 @@ from src.api.v1 import films, users
 from src.db import mongo
 
 sentry_sdk.init(integrations=[FastApiIntegration()])
+_request_id = contextvars.ContextVar(
+    'request_id', default=f'system:{uuid.uuid4()}'
+)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -22,9 +27,30 @@ app = FastAPI(
     default_response_class=ORJSONResponse,
 )
 
+
+@app.middleware("http")
+async def request_id_middleware(request: Request, call_next):
+    request_id = (
+            request.headers.get('X-Request-Id')
+            or f'direct:{uuid.uuid4()}'
+    )
+    _request_id.set(request_id)
+    return await call_next(request)
+
+
+factory = logging.getLogRecordFactory()
+
+
+def record_factory(*args, **kwargs):
+    record = factory(*args, **kwargs)
+    record.request_id = _request_id.get()
+    return record
+
+
 app.logger = logging.getLogger(__name__)
 app.logger.setLevel(logging.INFO)
 logstash_handler = AsynchronousLogstashHandler('logstash', 5044, None)
+logging.setLogRecordFactory(record_factory)
 app.logger.addHandler(logstash_handler)
 
 
