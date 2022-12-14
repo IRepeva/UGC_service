@@ -31,8 +31,7 @@ app = FastAPI(
 @app.middleware("http")
 async def request_id_middleware(request: Request, call_next):
     request_id = (
-            request.headers.get('X-Request-Id')
-            or f'direct:{uuid.uuid4()}'
+        request.headers.get('X-Request-Id') or f'direct:{uuid.uuid4()}'
     )
     _request_id.set(request_id)
     return await call_next(request)
@@ -59,9 +58,11 @@ async def startup():
     mongo_uri = f"mongodb://{settings.MONGO_HOST}:{settings.MONGO_PORT}"
     try:
         mongo.mongo = AsyncIOMotorClient(mongo_uri)
-        logging.info('mongodb %s successfully connected', mongo_uri)
+        logging.info(f'mongodb {mongo_uri} successfully connected')
     except (ConnectionError, Exception) as e:
-        logging.exception('Cannot connect to mongo %s', mongo_uri)
+        logging.exception(
+            f'Cannot connect to mongo {mongo_uri} \n Exception: {e}'
+        )
 
 
 @app.on_event("shutdown")

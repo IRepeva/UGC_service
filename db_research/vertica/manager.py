@@ -33,8 +33,8 @@ class VerticaManager(BaseDBManager):
     def insert(self, fake_data: List[Union[Dict, Tuple]],
                table_name: Optional[str] = DEFAULT_TABLE_NAME):
         insert_query = f'''
-            INSERT INTO {table_name} {DEFAULT_TABLE_FIELDS} 
-            VALUES (%s,%s,%s,%s)
+            INSERT INTO {table_name} {DEFAULT_TABLE_FIELDS}
+             VALUES (%s,%s,%s,%s)
         '''
         if isinstance(fake_data[0], dict):
             fake_data = [tuple(data.values()) for data in fake_data]

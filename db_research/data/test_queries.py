@@ -139,7 +139,7 @@ def get_average_movie_rating_after_insert(
         times.append(time.perf_counter() - start_time)
     total_time = sum(times)
     avg_time = total_time / iterations
-    print(f"Query: get_average_rating_after_insert")
+    print("Query: get_average_rating_after_insert")
     print(f"Number of iterations: {iterations}")
     print(f"Average run time: {avg_time:.4f} sec \n")
 

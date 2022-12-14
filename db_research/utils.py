@@ -30,7 +30,7 @@ def get_random_movie(amount=len(MOVIE_IDS)):
 
 def get_random_date():
     now_datetime = datetime.datetime.strptime(NOW, "%d/%m/%Y %H:%M:%S")
-    delta = 60*24*365*7
+    delta = 60 * 24 * 365 * 7
     random_delta_minutes = datetime.timedelta(minutes=random.randint(0, delta))
     return now_datetime - random_delta_minutes
 
