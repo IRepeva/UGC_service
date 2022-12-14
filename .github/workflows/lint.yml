@@ -51,4 +51,4 @@ jobs:
 
       - name: Check with Mypy
         run: |
-          mypy **/*.py .
+          mypy **/*.py
