@@ -40,3 +40,7 @@ jobs:
           name: Linter HTML report
           path: flake-report
           if-no-files-found: ignore
+
+      - name: Check with Mypy
+        run: |
+          mypy . --ignore-missing-imports --allow-untyped-decorators
