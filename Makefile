@@ -8,6 +8,9 @@ run_and_config_db_research:
 	chmod +x ./db_research/deploy/mongo_setup.sh && \
 	sh ./db_research/deploy/mongo_setup.sh
 
+run_db_research:
+	docker-compose -f db_research/docker-compose.yml up -d --build
+
 run_and_config_ugc:
 	docker-compose -f ugc/docker-compose.yml up -d --build && \
 	chmod +x ./ugc/deploy/mongodb/mongo_setup.sh && \
