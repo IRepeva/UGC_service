@@ -43,4 +43,4 @@ jobs:
 
       - name: Check with Mypy
         run: |
-          mypy . --ignore-missing-imports --allow-untyped-decorators
+          mypy $(git ls-files '*.py') --ignore-missing-imports --allow-untyped-decorators
