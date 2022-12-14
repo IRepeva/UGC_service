@@ -41,10 +41,14 @@ jobs:
           path: flake-report
           if-no-files-found: ignore
 
-      - name: ls
+      - name: pwd
         run: |
           pwd
 
+      - name: ls
+        run: |
+          ls
+
       - name: Check with Mypy
         run: |
-          mypy .
+          mypy **/*.py .
