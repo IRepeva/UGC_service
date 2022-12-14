@@ -34,7 +34,8 @@ async def rate_film(
         token=Depends(security)
 ) -> UserLikes:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     result = await like_service.get_user_likes(user_id=user_id)
