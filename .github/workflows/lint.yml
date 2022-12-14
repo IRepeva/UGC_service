@@ -43,4 +43,4 @@ jobs:
 
       - name: Check with Mypy
         run: |
-          mypy ugc_sprint --ignore-missing-imports --allow-untyped-decorators
+          mypy .
