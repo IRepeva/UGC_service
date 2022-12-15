@@ -1,20 +1,19 @@
-BASE_LOG_FORMAT = "%(asctime)s.%(msecs)03d - %(levelname)s - %(request_id)s - %(module)s.%(funcName)s::%(lineno)d - %(message)s"
+BASE_LOG_FORMAT = "%(asctime)s.%(msecs)03d - %(levelname)s - %(module)s.%(funcName)s::%(lineno)d - %(message)s"
+LOG_FORMAT = "%(asctime)s.%(msecs)03d - %(levelname)s - %(request_id)s - %(module)s.%(funcName)s::%(lineno)d - %(message)s"
 NGINX_FORMAT = "%(asctime)s.%(msecs)03d - %(levelname)s - %(client_addr)s - %(request_id)s - '%(request_line)s' - %(status_code)s"
 LOG_DEFAULT_HANDLERS = ['console', ]
-
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'base': {
-            'format': BASE_LOG_FORMAT,
+            'format': LOG_FORMAT,
             "datefmt": "%Y-%m-%d %H:%M:%S"
         },
-        'default': {
-            '()': 'uvicorn.logging.DefaultFormatter',
-            'fmt': '%(levelprefix)s %(message)s',
-            'use_colors': None,
+        'main': {
+            'format': BASE_LOG_FORMAT,
+            "datefmt": "%Y-%m-%d %H:%M:%S",
         },
         'access': {
             '()': 'uvicorn.logging.AccessFormatter',
@@ -24,12 +23,12 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
             'formatter': 'base',
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
         },
-        'default': {
-            'formatter': 'default',
+        'main': {
+            'formatter': 'main',
             'class': 'logging.StreamHandler',
             'stream': 'ext://sys.stdout',
         },
@@ -40,8 +39,12 @@ LOGGING = {
         },
     },
     'loggers': {
-        '': {
+        'log': {
             'handlers': LOG_DEFAULT_HANDLERS,
+            'level': 'INFO',
+        },
+        'main': {
+            'handlers': ['main', ],
             'level': 'INFO',
         },
         'uvicorn.error': {
@@ -52,10 +55,5 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
-    },
-    'root': {
-        'level': 'INFO',
-        'formatter': 'base',
-        'handlers': LOG_DEFAULT_HANDLERS,
     },
 }

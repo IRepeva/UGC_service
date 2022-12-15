@@ -2,6 +2,7 @@ from http import HTTPStatus
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
+
 from src.models.film import (
     FilmRating, FilmVote, FilmVotePost, ReviewLike, ReviewLikePost, FilmReview,
     FilmReviewPost, FilmReviewDetails
@@ -187,7 +188,6 @@ async def delete_movie_review(
     summary='Rate movie review'
 )
 async def rate_review(
-        film_id: str,
         review_id: str,
         like_review: ReviewLikePost,
         review_service: ReviewService = Depends(get_review_service),
@@ -216,7 +216,6 @@ async def rate_review(
     summary='Delete review like'
 )
 async def delete_review_rating(
-        film_id: str,
         review_id: str,
         review_service: ReviewService = Depends(get_review_service),
         token=Depends(security)

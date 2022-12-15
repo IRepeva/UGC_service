@@ -99,7 +99,7 @@ def get_likes_data_after_insert(
             new_count = collection.count_documents(test_query)
             flag = True if new_count == prev_count + 1 else False
 
-    collection = manager.database.get_collection(Likes.TABLE_NAME)
+    collection = manager.database.get_collection(Likes.table_name)
     for test in likes_queries:
         times = []
         for _ in range(iterations):
@@ -159,19 +159,19 @@ likes_queries = (
             {"user_id": DEFAULT_USER_ID, 'rating': {'$gte': 6}},
             {"movie_id": 1, "_id": 0}
         ],
-        Likes.TABLE_NAME
+        Likes.table_name
     ),
     Test(
         'get_movie_likes',
         [{"movie_id": DEFAULT_MOVIE_ID, 'rating': {'$gte': 6}}],
-        Likes.TABLE_NAME
+        Likes.table_name
     )
 )
 
 bookmark_query = Test(
     'get_user_bookmarks',
     [{"user_id": DEFAULT_USER_ID}],
-    Bookmarks.TABLE_NAME
+    Bookmarks.table_name
 )
 
 avg_rating_test = Test(
@@ -180,7 +180,7 @@ avg_rating_test = Test(
         {'$match': {"movie_id": DEFAULT_MOVIE_ID}},
         {"$group": {"_id": None, "avg_rating": {"$avg": "$rating"}}}
     ],
-    Likes.TABLE_NAME
+    Likes.table_name
 )
 
 get_review_test = Test(
@@ -189,14 +189,14 @@ get_review_test = Test(
         {'$match': {'movie_id': DEFAULT_MOVIE_ID}},
         {
             '$lookup': {
-                'from': ReviewLikes.TABLE_NAME,
+                'from': ReviewLikes.table_name,
                 'localField': 'review_id',
                 'foreignField': 'review_id',
                 'as': 'review_likes'
             }
         }
     ],
-    Reviews.TABLE_NAME
+    Reviews.table_name
 )
 
 MONGO_TESTS = (

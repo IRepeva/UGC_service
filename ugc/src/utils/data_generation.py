@@ -17,8 +17,8 @@ class BaseDataGenerator:
     def __init__(
             self,
             service: BaseService,
-            batch_count: int = settings.BATCH_COUNT,
-            batch_size: int = settings.BATCH_SIZE
+            batch_count: int = settings.batch_count,
+            batch_size: int = settings.batch_size
     ):
         self.service = service
         self.batch_size = batch_size

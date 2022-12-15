@@ -39,7 +39,7 @@ def run(
             run_test(test)
 
         for data_cls in data_to_use:
-            manager.clear_table(data_cls.TABLE_NAME)
+            manager.clear_table(data_cls.table_name)
 
         logging.info("===" * 10)
 

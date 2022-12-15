@@ -4,6 +4,7 @@ from functools import lru_cache
 from fastapi import Depends
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import ReturnDocument
+
 from src.db.mongo import get_mongo
 from src.models.film import FilmRating, FilmVote
 from src.models.user import UserLikes
@@ -12,7 +13,7 @@ from src.utils.data_generation import get_random_user, get_random_movie
 
 
 class LikeService(BaseService):
-    COLLECTION = 'likes'
+    collection_name = 'likes'
 
     async def get_film_likes(self, movie_id: str):
         film = await self.collection.find_one({'movie_id': movie_id})

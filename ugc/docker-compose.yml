@@ -9,7 +9,7 @@ services:
     depends_on:
       - shard01-a
     ports:
-      - "8008:8008"
+      - "8000"
     env_file:
       - .env
     restart: always
@@ -62,7 +62,7 @@ services:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms200m -Xmx200m
     ports:
-      - "9200:9200"
+      - "9200"
     volumes:
       - /tmp/esdata:/tmp/elasticsearch/data
 
@@ -82,14 +82,14 @@ services:
     container_name: router-01
     command: mongos --port 27017 --configdb rs-config-server/configsvr01:27017,configsvr02:27017,configsvr03:27017 --bind_ip_all
     ports:
-      - '27117:27017'
+      - '27017'
 
   router02:
     image: mongo:6.0.1
     container_name: router-02
     command: mongos --port 27017 --configdb rs-config-server/configsvr01:27017,configsvr02:27017,configsvr03:27017 --bind_ip_all
     ports:
-      - '27118:27017'
+      - '27017'
     links:
       - router01
 
@@ -99,7 +99,7 @@ services:
     container_name: mongo-config-01
     command: mongod --port 27017 --configsvr --replSet rs-config-server
     ports:
-      - '27119:27017'
+      - '27017'
     links:
       - shard01-a
       - shard02-a
@@ -109,7 +109,7 @@ services:
     container_name: mongo-config-02
     command: mongod --port 27017 --configsvr --replSet rs-config-server
     ports:
-      - '27120:27017'
+      - '27017'
     links:
       - configsvr01
 
@@ -118,7 +118,7 @@ services:
     container_name: mongo-config-03
     command: mongod --port 27017 --configsvr --replSet rs-config-server
     ports:
-      - '27121:27017'
+      - '27017'
     links:
       - configsvr02
 
@@ -130,7 +130,7 @@ services:
     container_name: shard-01-node-a
     command: mongod --port 27017 --shardsvr --replSet rs-shard-01
     ports:
-      - '27122:27017'
+      - '27017'
     links:
       - shard01-b
       - shard01-c
@@ -140,14 +140,14 @@ services:
     container_name: shard-01-node-b
     command: mongod --port 27017 --shardsvr --replSet rs-shard-01
     ports:
-      - '27123:27017'
+      - '27017'
 
   shard01-c:
     image: mongo:6.0.1
     container_name: shard-01-node-c
     command: mongod --port 27017 --shardsvr --replSet rs-shard-01
     ports:
-      - '27124:27017'
+      - '27017'
 
   ## Shards 02
   shard02-a:
@@ -155,7 +155,7 @@ services:
     container_name: shard-02-node-a
     command: mongod --port 27017 --shardsvr --replSet rs-shard-02
     ports:
-      - '27125:27017'
+      - '27017'
     links:
       - shard02-b
       - shard02-c
@@ -165,11 +165,11 @@ services:
     container_name: shard-02-node-b
     command: mongod --port 27017 --shardsvr --replSet rs-shard-02
     ports:
-      - '27126:27017'
+      - '27017'
 
   shard02-c:
     image: mongo:6.0.1
     container_name: shard-02-node-c
     command: mongod --port 27017 --shardsvr --replSet rs-shard-02
     ports:
-      - '27127:27017'
+      - '27017'

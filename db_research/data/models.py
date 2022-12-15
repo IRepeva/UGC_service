@@ -14,7 +14,7 @@ faker = Faker()
 
 
 class BaseDataClass:
-    TABLE_NAME: Optional[str] = None
+    table_name: Optional[str] = None
 
     @classmethod
     @abstractmethod
@@ -23,7 +23,7 @@ class BaseDataClass:
 
 
 class Views(BaseDataClass):
-    TABLE_NAME = 'views'
+    table_name = 'views'
 
     @classmethod
     def generate_row(cls, *args):
@@ -36,7 +36,7 @@ class Views(BaseDataClass):
 
 
 class Likes(BaseDataClass):
-    TABLE_NAME = 'likes'
+    table_name = 'likes'
 
     @classmethod
     def generate_row(cls, *args):
@@ -48,7 +48,7 @@ class Likes(BaseDataClass):
 
 
 class Bookmarks(BaseDataClass):
-    TABLE_NAME = 'bookmarks'
+    table_name = 'bookmarks'
 
     @classmethod
     def generate_row(cls, *args):
@@ -60,7 +60,7 @@ class Bookmarks(BaseDataClass):
 
 class Reviews(BaseDataClass):
     PREFIX = 'reviews'
-    TABLE_NAME = 'reviews'
+    table_name = 'reviews'
 
     @classmethod
     def generate_row(cls, *args):
@@ -75,7 +75,7 @@ class Reviews(BaseDataClass):
 
 
 class ReviewLikes(BaseDataClass):
-    TABLE_NAME = 'review_likes'
+    table_name = 'review_likes'
 
     @classmethod
     def generate_row(cls, *args):

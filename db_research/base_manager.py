@@ -50,7 +50,7 @@ class BaseDBManager:
             data_class, batch_count, batch_size
         )
         for fake_data in data_generator.generate_data():
-            self.insert(fake_data, data_class.TABLE_NAME)
+            self.insert(fake_data, data_class.table_name)
         return time.perf_counter() - start
 
     @abstractmethod

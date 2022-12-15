@@ -1,6 +1,7 @@
 import logging
 import sys
 import time
+from typing import Any
 
 from pymongo import MongoClient
 
@@ -11,14 +12,16 @@ from src.services.like import LikeService
 from src.services.review import ReviewService
 from src.utils.data_generation import BaseDataGenerator
 
+logger = logging.getLogger(__name__)
+
 
 def fill_db(
-        batch_count: int = settings.BATCH_COUNT,
-        batch_size: int = settings.BATCH_SIZE
+        batch_count: int = settings.batch_count,
+        batch_size: int = settings.batch_size
 ):
-    mongo_client: MongoClient = MongoClient(settings.MONGO_HOST,
-                                            settings.MONGO_PORT)
-    mongo_database = mongo_client.get_database(settings.MONGO_DB)
+    mongo_client: MongoClient[Any] = MongoClient(settings.DATABASE.HOST,
+                                                 settings.DATABASE.PORT)
+    mongo_database = mongo_client.get_database(settings.DATABASE.DB)
 
     for mongo_service in (LikeService, ReviewService, BookmarkService):
         start = time.perf_counter()
@@ -26,10 +29,10 @@ def fill_db(
             mongo_service, batch_count, batch_size
         )
 
-        collections_to_fill = [(mongo_service.COLLECTION, False)]
-        if mongo_service.DEPENDENT_COLLECTION:
+        collections_to_fill = [(mongo_service.collection_name, False)]
+        if mongo_service.dependent_coll_name:
             collections_to_fill.append(
-                (mongo_service.DEPENDENT_COLLECTION, True)
+                (mongo_service.dependent_coll_name, True)
             )
 
         for collection_name, dependent in collections_to_fill:
@@ -39,7 +42,7 @@ def fill_db(
             for fake_data in data_generator.generate_data(dependent=dependent):
                 mongo_service.insert(fake_data, collection)
 
-        logging.info(
+        logger.info(
             f'Filled {mongo_service.__name__}: {time.perf_counter() - start}'
         )
 
