@@ -36,3 +36,31 @@ jobs:
           name: Linter HTML report
           path: flake-report
           if-no-files-found: ignore
+
+      - name: Send telegram message on fail
+        if: ${{ failure() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.repository }} repository:
+            
+            ${{ github.actor }} created ${{ github.event.name }}:
+            Pipeline failed!
+            
+            See details: https://github.com/${{ github.repository }}/actions
+
+      - name: Send telegram message on success
+        if: ${{ success() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.repository }} repository:
+            
+            ${{ github.actor }} created ${{ github.event.name }}:
+            Pipeline finished successfully!
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
