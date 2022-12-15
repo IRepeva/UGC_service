@@ -1,12 +1,14 @@
+import logging
 from abc import abstractmethod
+from typing import Optional
 
 from core.settings import settings
 from motor.motor_asyncio import AsyncIOMotorClient
 
 
 class BaseService:
-    COLLECTION = None
-    DEPENDENT_COLLECTION = None
+    COLLECTION: Optional[str] = None
+    DEPENDENT_COLLECTION: Optional[str] = None
 
     def __init__(self, mongo: AsyncIOMotorClient):
         self.database = mongo.get_database(settings.MONGO_DB)
@@ -25,5 +27,5 @@ class BaseService:
     def insert(cls, fake_data: dict, collection):
         try:
             collection.insert_many(fake_data)
-        except Exception as e:
-            print(e)
+        except Exception as exc:
+            logging.exception(exc)

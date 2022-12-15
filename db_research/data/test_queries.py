@@ -1,3 +1,4 @@
+import logging
 import time
 from collections import namedtuple
 
@@ -48,8 +49,10 @@ BASE_SELECT_QUERIES = (
 
 
 # MONGO TESTS
-def get_simple_data(manager: MongoDBManager,
-                    iterations: int = base_settings.iterations_count):
+def get_simple_data(
+        manager: MongoDBManager,
+        iterations: int = base_settings.iterations_count
+):
     @benchmark(iterations=iterations)
     def run_test(test_data):
         manager.get_data(test_data.query, test_data.table_name)
@@ -59,8 +62,10 @@ def get_simple_data(manager: MongoDBManager,
     run_test(bookmark_query)
 
 
-def get_average_movie_rating(manager: MongoDBManager,
-                             iterations: int = base_settings.iterations_count):
+def get_average_movie_rating(
+        manager: MongoDBManager,
+        iterations: int = base_settings.iterations_count
+):
     @benchmark(iterations=iterations)
     def run_test(test_data):
         manager.aggregate(test_data.query, test_data.table_name)
@@ -70,7 +75,8 @@ def get_average_movie_rating(manager: MongoDBManager,
 
 def get_movie_reviews_sort_time(
         manager: MongoDBManager,
-        iterations: int = base_settings.iterations_count):
+        iterations: int = base_settings.iterations_count
+):
     @benchmark(iterations=iterations)
     def run_test(test_data):
         review = manager.aggregate(
@@ -85,7 +91,8 @@ def get_movie_reviews_sort_time(
 
 def get_likes_data_after_insert(
         manager: MongoDBManager,
-        iterations: int = base_settings.iterations_count):
+        iterations: int = base_settings.iterations_count
+):
     def run_test(test_data, prev_count, flag=False):
         while not flag:
             test_query = test_data.query[0]
@@ -109,14 +116,15 @@ def get_likes_data_after_insert(
             times.append(time.perf_counter() - start_time)
         total_time = sum(times)
         avg_time = total_time / iterations
-        print(f"Query: {test.name}_after_insert")
-        print(f"Number of iterations: {iterations}")
-        print(f"Average run time: {avg_time:.4f} sec \n")
+        logging.info(f"Query: {test.name}_after_insert")
+        logging.info(f"Number of iterations: {iterations}")
+        logging.info(f"Average run time: {avg_time:.4f} sec \n")
 
 
 def get_average_movie_rating_after_insert(
         manager: MongoDBManager,
-        iterations: int = base_settings.iterations_count):
+        iterations: int = base_settings.iterations_count
+):
     def run_test(test_data, prev_avg, flag=False):
         while not flag:
             new_count = list(collection.aggregate(test_data.query))
@@ -139,9 +147,9 @@ def get_average_movie_rating_after_insert(
         times.append(time.perf_counter() - start_time)
     total_time = sum(times)
     avg_time = total_time / iterations
-    print(f"Query: get_average_rating_after_insert")
-    print(f"Number of iterations: {iterations}")
-    print(f"Average run time: {avg_time:.4f} sec \n")
+    logging.info(f"Query: get_average_rating_after_insert")
+    logging.info(f"Number of iterations: {iterations}")
+    logging.info(f"Average run time: {avg_time:.4f} sec \n")
 
 
 likes_queries = (
