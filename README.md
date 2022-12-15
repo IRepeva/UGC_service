@@ -1,8 +1,15 @@
 **_Link to GitHub_**: https://github.com/IRepeva/ugc_sprint_2
 
-# UGC service
+# UGC
+## Introduction
+The project contains UGC service and a databases performance analysis tool.
 
-## Description
+For code quality check CI with MyPy and wemake_python_styleguide linters was set up.
+Telegram notifications for push and pull requests were added for easy deployment tracking.
+
+## UGC service
+
+### Description
 API allows to work with likes, reviews and bookmarks information. 
 MongoDB is used as data storage.
 
@@ -17,7 +24,7 @@ MongoDB is used as data storage.
    - average film rating based on all users' ratings
 
 
-## Get started
+### Get started
 Create file **.env** based on **.env.example** inside ugc folder
 
  - To run service and configure mongodb - `make run_and_config_ugc`
@@ -35,16 +42,16 @@ and secret from **.env** file
 More detailed information about service's endpoints is available 
 [here](http://0.0.0.0:8000/api/openapi) after project start (`make run_and_config_ugc`)
 
-# Database research
+## Database research
 
-## Description
+### Description
 **db_research** is a tool for database comparison and performance analysis. 
 
 In current project Clickhouse and Vertica databases were compared and 
 MongoDB performance was estimated, but the same approach can be used for 
 any other databases
 
-## Get started
+### Get started
 
  - To run the service and configure MongoDB - `make run_and_config_db_research`.
  - To run service without mongodb configuration - `make run_db_research`
