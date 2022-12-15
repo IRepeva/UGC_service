@@ -1,5 +1,5 @@
 import logging
-from typing import Union, Tuple, List
+from typing import Union, Tuple, List, Any
 
 from db_research.base_manager import BaseDBManager
 from db_research.clickhouse.manager import ClickhouseManager
@@ -16,8 +16,10 @@ DATA_TO_USE = (Views,)
 def run(
         manager: BaseDBManager,
         data_to_use: Union[List[BaseDataClass], Tuple[BaseDataClass]],
-        tests: Tuple[tuple],
-        batch_counts: Union[Tuple[int], List[int]] = TEST_BATCH_COUNTS,
+        tests: Tuple[Any],
+        batch_counts: Union[
+            Tuple[int, int, int], List[int]
+        ] = TEST_BATCH_COUNTS,
         iterations: int = base_settings.iterations_count
 ) -> None:
     manager.create_db()

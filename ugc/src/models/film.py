@@ -1,7 +1,8 @@
 import datetime
-from typing import List
+from typing import List, Any
 
 from pydantic import Field
+
 from src.models.mixin import MixinModel
 
 
@@ -34,7 +35,7 @@ class FilmReview(FilmReviewPost):
 
 class FilmReviewDetails(FilmReview):
     rating: float
-    review_likes: List = []
+    review_likes: List[Any] = []
 
 
 class ReviewLikePost(MixinModel):
