@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 
@@ -110,7 +110,7 @@ async def delete_film_vote(
 )
 async def film_reviews(
         film_id: str,
-        sort: str | None = None,
+        sort: Optional[str] = None,
         review_service: ReviewService = Depends(get_review_service),
         token=Depends(security)
 ) -> List[FilmReviewDetails]:
