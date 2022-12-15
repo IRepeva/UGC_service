@@ -32,12 +32,19 @@ class BaseDBManager:
         ...
 
     @abstractmethod
-    def insert(self, fake_data: List[Union[Dict, Tuple]],
-               table_name: Optional[str] = DEFAULT_TABLE_NAME):
+    def insert(
+            self,
+            fake_data: List[Union[Dict, Tuple]],
+            table_name: Optional[str] = DEFAULT_TABLE_NAME
+    ):
         ...
 
-    def fill_db(self, data_class: BaseDataClass, batch_count: int,
-                batch_size: int = base_settings.batch_size):
+    def fill_db(
+            self,
+            data_class: BaseDataClass,
+            batch_count: int,
+            batch_size: int = base_settings.batch_size
+    ):
         start = time.perf_counter()
         data_generator = BaseDataGenerator(
             data_class, batch_count, batch_size
@@ -47,6 +54,9 @@ class BaseDBManager:
         return time.perf_counter() - start
 
     @abstractmethod
-    def get_data(self, query: Union[tuple, list, str],
-                 table_name: str = DEFAULT_TABLE_NAME):
+    def get_data(
+            self,
+            query: Union[tuple, list, str],
+            table_name: str = DEFAULT_TABLE_NAME
+    ):
         ...

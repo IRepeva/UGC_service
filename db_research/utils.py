@@ -1,5 +1,6 @@
 import datetime
 import functools
+import logging
 import random
 import string
 import time
@@ -49,9 +50,9 @@ def benchmark(iterations: int = base_settings.iterations_count):
             total_time = sum(times)
             avg_time = total_time / iterations
 
-            print(f"Query: {args[0].name}")
-            print(f"Number of iterations: {iterations}")
-            print(f"Average run time: {avg_time:.4f} sec \n")
+            logging.info(f"Query: {args[0].name}")
+            logging.info(f"Number of iterations: {iterations}")
+            logging.info(f"Average run time: {avg_time:.4f} sec \n")
 
         return inner
 

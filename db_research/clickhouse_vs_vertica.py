@@ -1,3 +1,4 @@
+import logging
 from typing import Union, Tuple, List
 
 from db_research.base_manager import BaseDBManager
@@ -12,21 +13,23 @@ DB_TO_COMPARE = (VerticaManager, ClickhouseManager)
 DATA_TO_USE = (Views,)
 
 
-def run(manager: BaseDBManager,
+def run(
+        manager: BaseDBManager,
         data_to_use: Union[List[BaseDataClass], Tuple[BaseDataClass]],
         tests: Tuple,
         batch_counts: Union[Tuple, List] = TEST_BATCH_COUNTS,
-        iterations: int = base_settings.iterations_count) -> None:
+        iterations: int = base_settings.iterations_count
+) -> None:
     manager.create_db()
 
-    print(f'*** Running benchmarks for {manager.DB_NAME} ***')
+    logging.info(f'*** Running benchmarks for {manager.DB_NAME} ***')
     for batch_count in batch_counts:
         table_size = batch_count * base_settings.batch_size
-        print(f'{table_size} rows: \n')
+        logging.info(f'{table_size} rows: \n')
 
         for data_cls in data_to_use:
             fill_db_time = manager.fill_db(data_cls, batch_count)
-            print(f'Filling {data_cls.__name__}: {fill_db_time} \n')
+            logging.info(f'Filling {data_cls.__name__}: {fill_db_time} \n')
 
         @benchmark(iterations=iterations)
         def run_test(test_data):
@@ -38,7 +41,7 @@ def run(manager: BaseDBManager,
         for data_cls in data_to_use:
             manager.clear_table(data_cls.TABLE_NAME)
 
-        print("===" * 10)
+        logging.info("===" * 10)
 
 
 if __name__ == '__main__':
