@@ -5,7 +5,7 @@ import jwt
 from fastapi.security import HTTPBearer
 
 
-def get_token_payload(token: str) -> dict:
+def get_token_payload(token: str) -> dict[str]:
     try:
         unverified_headers = jwt.get_unverified_header(token)
         return jwt.decode(

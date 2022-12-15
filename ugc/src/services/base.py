@@ -1,9 +1,11 @@
 import logging
 from abc import abstractmethod
-from typing import Optional
+from typing import Optional, List, Dict, Any
+
+from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo.collection import Collection
 
 from core.settings import settings
-from motor.motor_asyncio import AsyncIOMotorClient
 
 
 class BaseService:
@@ -24,7 +26,7 @@ class BaseService:
         ...
 
     @classmethod
-    def insert(cls, fake_data: dict, collection):
+    def insert(cls, fake_data: List[Dict[str, Any]], collection: Collection):
         try:
             collection.insert_many(fake_data)
         except Exception as exc:

@@ -1,7 +1,7 @@
 import datetime
 import random
 from abc import abstractmethod
-from typing import Optional
+from typing import Optional, Any
 
 from faker import Faker
 
@@ -18,7 +18,7 @@ class BaseDataClass:
 
     @classmethod
     @abstractmethod
-    def generate_row(cls, *args):
+    def generate_row(cls, *args) -> dict[str, Any]:
         ...
 
 
