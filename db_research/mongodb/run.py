@@ -16,8 +16,8 @@ DATA_TO_USE = (Likes, Bookmarks, Reviews, ReviewLikes)
 def run(
         manager: BaseDBManager,
         data_to_use: Union[List[BaseDataClass], Tuple[BaseDataClass]],
-        tests: Tuple,
-        batch_counts: Union[Tuple, List] = TEST_BATCH_COUNTS_MONGO,
+        tests: Tuple[tuple],
+        batch_counts: Union[Tuple[int], List[int]] = TEST_BATCH_COUNTS_MONGO,
         iterations: int = base_settings.iterations_count
 ) -> None:
     manager.create_db()

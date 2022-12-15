@@ -16,20 +16,20 @@ MOVIES_COUNT = 1000
 MOVIE_IDS = [str(i) for i in range(MOVIES_COUNT)]
 
 
-def generate_random_string(char_num=16):
+def generate_random_string(char_num=16) -> str:
     alphabet = string.ascii_letters + string.digits
     return ''.join(random.choice(alphabet) for _ in range(char_num))
 
 
-def get_random_user(amount=len(USER_IDS)):
+def get_random_user(amount=len(USER_IDS)) -> str:
     return random.choice(USER_IDS[:amount])
 
 
-def get_random_movie(amount=len(MOVIE_IDS)):
+def get_random_movie(amount=len(MOVIE_IDS)) -> str:
     return random.choice(MOVIE_IDS[:amount])
 
 
-def get_random_date():
+def get_random_date() -> datetime.datetime:
     now_datetime = datetime.datetime.strptime(NOW, "%d/%m/%Y %H:%M:%S")
     delta = 60*24*365*7
     random_delta_minutes = datetime.timedelta(minutes=random.randint(0, delta))
