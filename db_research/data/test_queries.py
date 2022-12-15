@@ -1,4 +1,3 @@
-import logging
 import time
 from collections import namedtuple
 
@@ -116,9 +115,9 @@ def get_likes_data_after_insert(
             times.append(time.perf_counter() - start_time)
         total_time = sum(times)
         avg_time = total_time / iterations
-        logging.info(f"Query: {test.name}_after_insert")
-        logging.info(f"Number of iterations: {iterations}")
-        logging.info(f"Average run time: {avg_time:.4f} sec \n")
+        print(f"Query: {test.name}_after_insert")
+        print(f"Number of iterations: {iterations}")
+        print(f"Average run time: {avg_time:.4f} sec \n")
 
 
 def get_average_movie_rating_after_insert(
@@ -147,9 +146,9 @@ def get_average_movie_rating_after_insert(
         times.append(time.perf_counter() - start_time)
     total_time = sum(times)
     avg_time = total_time / iterations
-    logging.info(f"Query: get_average_rating_after_insert")
-    logging.info(f"Number of iterations: {iterations}")
-    logging.info(f"Average run time: {avg_time:.4f} sec \n")
+    print(f"Query: get_average_rating_after_insert")
+    print(f"Number of iterations: {iterations}")
+    print(f"Average run time: {avg_time:.4f} sec \n")
 
 
 likes_queries = (

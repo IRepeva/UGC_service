@@ -1,5 +1,4 @@
-import logging
-from typing import Union, List, Tuple
+from typing import Union, List, Tuple, Any
 
 from db_research.base_manager import BaseDBManager
 from db_research.data.models import (
@@ -16,20 +15,20 @@ DATA_TO_USE = (Likes, Bookmarks, Reviews, ReviewLikes)
 def run(
         manager: BaseDBManager,
         data_to_use: Union[List[BaseDataClass], Tuple[BaseDataClass]],
-        tests: Tuple[tuple],
+        tests: Tuple[Any],
         batch_counts: Union[Tuple[int], List[int]] = TEST_BATCH_COUNTS_MONGO,
         iterations: int = base_settings.iterations_count
 ) -> None:
     manager.create_db()
 
-    logging.info(f'*** Running benchmarks for {manager.DB_NAME} ***')
+    print(f'*** Running benchmarks for {manager.DB_NAME} ***')
     for batch_count in batch_counts:
         table_size = batch_count * base_settings.batch_size
-        logging.info(f'{table_size} rows:')
+        print(f'{table_size} rows:')
 
         for data_cls in data_to_use:
             fill_db_time = manager.fill_db(data_cls, batch_count)
-            logging.info(f'Filling {data_cls.__name__}: {fill_db_time} \n')
+            print(f'Filling {data_cls.__name__}: {fill_db_time} \n')
 
         for test in tests:
             test(manager, iterations)
@@ -37,7 +36,7 @@ def run(
         for data_cls in data_to_use:
             manager.clear_table(data_cls.table_name)
 
-        logging.info("===" * 10)
+        print("===" * 10)
 
 
 if __name__ == '__main__':

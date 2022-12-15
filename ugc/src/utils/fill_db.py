@@ -1,4 +1,3 @@
-import logging
 import sys
 import time
 from typing import Any
@@ -11,8 +10,6 @@ from src.services.bookmark import BookmarkService
 from src.services.like import LikeService
 from src.services.review import ReviewService
 from src.utils.data_generation import BaseDataGenerator
-
-logger = logging.getLogger(__name__)
 
 
 def fill_db(
@@ -42,7 +39,7 @@ def fill_db(
             for fake_data in data_generator.generate_data(dependent=dependent):
                 mongo_service.insert(fake_data, collection)
 
-        logger.info(
+        print(
             f'Filled {mongo_service.__name__}: {time.perf_counter() - start}'
         )
 
