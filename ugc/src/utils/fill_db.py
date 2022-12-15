@@ -1,6 +1,7 @@
 import logging
 import sys
 import time
+from typing import Any
 
 from pymongo import MongoClient
 
@@ -16,8 +17,8 @@ def fill_db(
         batch_count: int = settings.BATCH_COUNT,
         batch_size: int = settings.BATCH_SIZE
 ):
-    mongo_client: MongoClient = MongoClient(settings.MONGO_HOST,
-                                            settings.MONGO_PORT)
+    mongo_client: MongoClient[Any] = MongoClient(settings.MONGO_HOST,
+                                                 settings.MONGO_PORT)
     mongo_database = mongo_client.get_database(settings.MONGO_DB)
 
     for mongo_service in (LikeService, ReviewService, BookmarkService):

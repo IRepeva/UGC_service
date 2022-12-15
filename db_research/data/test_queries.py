@@ -52,9 +52,9 @@ BASE_SELECT_QUERIES = (
 def get_simple_data(
         manager: MongoDBManager,
         iterations: int = base_settings.iterations_count
-):
+) -> None:
     @benchmark(iterations=iterations)
-    def run_test(test_data):
+    def run_test(test_data) -> None:
         manager.get_data(test_data.query, test_data.table_name)
 
     for test in likes_queries:
@@ -65,9 +65,9 @@ def get_simple_data(
 def get_average_movie_rating(
         manager: MongoDBManager,
         iterations: int = base_settings.iterations_count
-):
+) -> None:
     @benchmark(iterations=iterations)
-    def run_test(test_data):
+    def run_test(test_data) -> None:
         manager.aggregate(test_data.query, test_data.table_name)
 
     run_test(avg_rating_test)
@@ -76,9 +76,9 @@ def get_average_movie_rating(
 def get_movie_reviews_sort_time(
         manager: MongoDBManager,
         iterations: int = base_settings.iterations_count
-):
+) -> None:
     @benchmark(iterations=iterations)
-    def run_test(test_data):
+    def run_test(test_data) -> None:
         review = manager.aggregate(
             test_data.query, test_data.table_name
         )
@@ -92,8 +92,8 @@ def get_movie_reviews_sort_time(
 def get_likes_data_after_insert(
         manager: MongoDBManager,
         iterations: int = base_settings.iterations_count
-):
-    def run_test(test_data, prev_count, flag=False):
+) -> None:
+    def run_test(test_data, prev_count, flag=False) -> None:
         while not flag:
             test_query = test_data.query[0]
             new_count = collection.count_documents(test_query)
@@ -124,8 +124,8 @@ def get_likes_data_after_insert(
 def get_average_movie_rating_after_insert(
         manager: MongoDBManager,
         iterations: int = base_settings.iterations_count
-):
-    def run_test(test_data, prev_avg, flag=False):
+) -> None:
+    def run_test(test_data, prev_avg, flag=False) -> None:
         while not flag:
             new_count = list(collection.aggregate(test_data.query))
             new_avg = new_count[0].get("avg_rating")

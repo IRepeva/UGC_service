@@ -1,5 +1,5 @@
 import logging
-from typing import Union, Dict, Optional, List, Tuple
+from typing import Union, Dict, Optional, List, Tuple, Any
 
 from pymongo import MongoClient
 
@@ -22,12 +22,12 @@ class MongoDBManager(BaseDBManager):
 
     @property
     def database(self):
-        client = MongoClient(self.host, self.port)
+        client: MongoClient[Any] = MongoClient(self.host, self.port)
         return client.get_database(self.db_name)
 
     def insert(
             self,
-            fake_data: List[Union[Dict, Tuple]],
+            fake_data: List[Union[Dict[str, Any], Tuple[Any]]],
             collection_name: Optional[str] = DEFAULT_TABLE_NAME
     ):
         collection = self.database.get_collection(collection_name)
@@ -42,7 +42,7 @@ class MongoDBManager(BaseDBManager):
 
     def get_data(
             self,
-            query: Union[tuple, list],
+            query: Union[tuple[dict[str, Any]], list[dict[str, Any]]],
             collection_name=DEFAULT_TABLE_NAME
     ):
         collection = self.database.get_collection(collection_name)
@@ -50,12 +50,16 @@ class MongoDBManager(BaseDBManager):
 
     def aggregate(
             self,
-            query: Union[tuple, list],
+            query: Union[tuple[dict[str, Any]], list[dict[str, Any]]],
             collection_name=DEFAULT_TABLE_NAME
     ):
         collection = self.database.get_collection(collection_name)
         collection.aggregate(query)
 
-    def count_documents(self, query: Dict, collection_name=DEFAULT_TABLE_NAME):
+    def count_documents(
+            self,
+            query: Dict[str, Any],
+            collection_name=DEFAULT_TABLE_NAME
+    ):
         collection = self.database.get_collection(collection_name)
         collection.count_documents(query)

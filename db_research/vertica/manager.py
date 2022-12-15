@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import List, Dict, Tuple, Union, Optional
+from typing import List, Dict, Tuple, Union, Optional, Any
 
 import vertica_python
 
@@ -32,7 +32,7 @@ class VerticaManager(BaseDBManager):
 
     def insert(
             self,
-            fake_data: List[Union[Dict, Tuple]],
+            fake_data: List[Union[Dict[str, Any], Tuple[Any]]],
             table_name: Optional[str] = DEFAULT_TABLE_NAME
     ):
         insert_query = f'''

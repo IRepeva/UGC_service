@@ -37,6 +37,10 @@ jobs:
           path: flake-report
           if-no-files-found: ignore
 
+      - name: Lint with Mypy
+        run: |
+          mypy . --ignore-missing-imports --allow-untyped-decorators
+
       - name: Send telegram message on fail
         if: ${{ failure() }}
         uses: appleboy/telegram-action@master
@@ -64,7 +68,3 @@ jobs:
             Pipeline finished successfully!
             
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-
-      - name: Check with Mypy
-        run: |
-          mypy . --ignore-missing-imports --allow-untyped-decorators
