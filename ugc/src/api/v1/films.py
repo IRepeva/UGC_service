@@ -2,6 +2,7 @@ from http import HTTPStatus
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
+
 from src.models.film import (
     FilmRating, FilmVote, FilmVotePost, ReviewLike, ReviewLikePost, FilmReview,
     FilmReviewPost, FilmReviewDetails
@@ -46,7 +47,8 @@ async def rate_film(
         token=Depends(security)
 ) -> FilmVote:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     if film_vote.rating > 10 or film_vote.rating < 1:
@@ -76,7 +78,8 @@ async def delete_film_vote(
         token=Depends(security)
 ) -> FilmVote:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     result = await like_service.delete_film_vote(
@@ -102,7 +105,8 @@ async def film_reviews(
         token=Depends(security)
 ) -> List[FilmReviewDetails]:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     reviews = await review_service.get_film_reviews(user_id, film_id, sort)
@@ -121,7 +125,8 @@ async def review_film(
         token=Depends(security)
 ) -> FilmReview:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     result = await review_service.review_film(
@@ -144,7 +149,8 @@ async def delete_movie_review(
         review_service: ReviewService = Depends(get_review_service),
         token=Depends(security)) -> FilmReview:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     result = await review_service.delete_film_review(
@@ -168,7 +174,8 @@ async def rate_review(
         review_service: ReviewService = Depends(get_review_service),
         token=Depends(security)) -> ReviewLike:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     result = await review_service.like_review(
@@ -192,7 +199,8 @@ async def delete_review_rating(
         review_service: ReviewService = Depends(get_review_service),
         token=Depends(security)) -> ReviewLike:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     result = await review_service.delete_review_like(
@@ -216,7 +224,8 @@ async def add_movie_bookmark(
         token=Depends(security)
 ) -> Bookmark:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     result = await bookmark_service.add_bookmark(
@@ -240,7 +249,8 @@ async def delete_movie_bookmark(
         token=Depends(security)
 ) -> Bookmark:
     token_payload = get_token_payload(token.credentials)
-    if not (user_id := token_payload.get('user_id')):
+    user_id = token_payload.get('user_id')
+    if not user_id:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
     result = await bookmark_service.delete_bookmark(
