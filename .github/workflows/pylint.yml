@@ -1,6 +1,10 @@
 name: Lint
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
@@ -50,7 +54,7 @@ jobs:
           message: |
             ${{ github.repository }} repository:
             
-            ${{ github.actor }} created commit:
+            ${{ github.actor }} created commit ${{github.sha}}
             Pipeline failed!
             
             See details: https://github.com/${{ github.repository }}/actions
@@ -64,7 +68,7 @@ jobs:
           message: |
             ${{ github.repository }} repository:
             
-            ${{ github.actor }} created commit:
+            ${{ github.actor }} created commit ${{github.sha}}
             Pipeline finished successfully!
             
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}

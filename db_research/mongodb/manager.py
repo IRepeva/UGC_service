@@ -15,7 +15,7 @@ class MongoDBManager(BaseDBManager):
             host=mongo_settings.host,
             port=mongo_settings.port,
             db_name=mongo_settings.db_name
-    ):
+    ) -> None:
         self.host = host
         self.port = port
         self.db_name = db_name
