@@ -28,3 +28,11 @@ jobs:
         run: |
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --format=html --htmldir=flake-report
           flake8 . --count --exit-zero --max-complexity=6 --max-line-length=120 --statistics --format=html --htmldir=flake-report
+
+      - name: Upload linter HTML report
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: Linter HTML report
+          path: flake-report
+          if-no-files-found: ignore
