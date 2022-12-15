@@ -14,9 +14,12 @@ MOVIE_IDS = [str(i) for i in range(MOVIES_COUNT)]
 
 
 class BaseDataGenerator:
-    def __init__(self, service: BaseService,
-                 batch_count: int = settings.BATCH_COUNT,
-                 batch_size: int = settings.BATCH_SIZE):
+    def __init__(
+            self,
+            service: BaseService,
+            batch_count: int = settings.BATCH_COUNT,
+            batch_size: int = settings.BATCH_SIZE
+    ):
         self.service = service
         self.batch_size = batch_size
         self.batch_count = batch_count
@@ -46,7 +49,7 @@ def get_random_movie(amount=len(MOVIE_IDS)):
 
 
 def get_random_date():
-    now_datetime = datetime.datetime.strptime(NOW, "%d/%m/%Y %H:%M:%S")
+    now_datetime = datetime.datetime.strptime(NOW, '%d/%m/%Y %H:%M:%S')
     delta = 60 * 24 * 365 * 7
     random_delta_minutes = datetime.timedelta(minutes=random.randint(0, delta))
     return now_datetime - random_delta_minutes

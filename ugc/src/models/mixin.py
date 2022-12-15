@@ -3,8 +3,8 @@ import orjson
 from pydantic import BaseModel
 
 
-def orjson_dumps(v, *, default):
-    return orjson.dumps(v, default=default).decode()
+def orjson_dumps(val, *, default):
+    return orjson.dumps(val, default=default).decode()
 
 
 class MixinModel(BaseModel):

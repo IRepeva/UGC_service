@@ -3,9 +3,12 @@ from db_research.settings import base_settings
 
 
 class BaseDataGenerator:
-    def __init__(self, data_cls: BaseDataClass,
-                 batch_count: int = base_settings.batch_count,
-                 batch_size: int = base_settings.batch_size):
+    def __init__(
+            self,
+            data_cls: BaseDataClass,
+            batch_count: int = base_settings.batch_count,
+            batch_size: int = base_settings.batch_size
+    ):
         self.data_cls = data_cls
         self.batch_size = batch_size
         self.batch_count = batch_count

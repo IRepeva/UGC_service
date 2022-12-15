@@ -1,3 +1,4 @@
+import logging
 import sys
 import time
 
@@ -11,8 +12,10 @@ from src.services.review import ReviewService
 from src.utils.data_generation import BaseDataGenerator
 
 
-def fill_db(batch_count: int = settings.BATCH_COUNT,
-            batch_size: int = settings.BATCH_SIZE):
+def fill_db(
+        batch_count: int = settings.BATCH_COUNT,
+        batch_size: int = settings.BATCH_SIZE
+):
     mongo_client: MongoClient = MongoClient(settings.MONGO_HOST,
                                             settings.MONGO_PORT)
     mongo_database = mongo_client.get_database(settings.MONGO_DB)
@@ -35,9 +38,10 @@ def fill_db(batch_count: int = settings.BATCH_COUNT,
 
             for fake_data in data_generator.generate_data(dependent=dependent):
                 mongo_service.insert(fake_data, collection)
-            print(f'Collection {collection_name}: {collection.count_documents({})}')
 
-        print(f'Filled {mongo_service.__name__}: {time.perf_counter() - start}')
+        logging.info(
+            f'Filled {mongo_service.__name__}: {time.perf_counter() - start}'
+        )
 
 
 if __name__ == '__main__':

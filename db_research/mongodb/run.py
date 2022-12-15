@@ -1,3 +1,4 @@
+import logging
 from typing import Union, List, Tuple
 
 from db_research.base_manager import BaseDBManager
@@ -12,21 +13,23 @@ DB_TO_COMPARE = (MongoDBManager,)
 DATA_TO_USE = (Likes, Bookmarks, Reviews, ReviewLikes)
 
 
-def run(manager: BaseDBManager,
+def run(
+        manager: BaseDBManager,
         data_to_use: Union[List[BaseDataClass], Tuple[BaseDataClass]],
-        tests: Tuple,
-        batch_counts: Union[Tuple, List] = TEST_BATCH_COUNTS_MONGO,
-        iterations: int = base_settings.iterations_count) -> None:
+        tests: Tuple[tuple],
+        batch_counts: Union[Tuple[int], List[int]] = TEST_BATCH_COUNTS_MONGO,
+        iterations: int = base_settings.iterations_count
+) -> None:
     manager.create_db()
 
-    print(f'*** Running benchmarks for {manager.DB_NAME} ***')
+    logging.info(f'*** Running benchmarks for {manager.DB_NAME} ***')
     for batch_count in batch_counts:
         table_size = batch_count * base_settings.batch_size
-        print(f'{table_size} rows:')
+        logging.info(f'{table_size} rows:')
 
         for data_cls in data_to_use:
             fill_db_time = manager.fill_db(data_cls, batch_count)
-            print(f'Filling {data_cls.__name__}: {fill_db_time} \n')
+            logging.info(f'Filling {data_cls.__name__}: {fill_db_time} \n')
 
         for test in tests:
             test(manager, iterations)
@@ -34,7 +37,7 @@ def run(manager: BaseDBManager,
         for data_cls in data_to_use:
             manager.clear_table(data_cls.TABLE_NAME)
 
-        print("===" * 10)
+        logging.info("===" * 10)
 
 
 if __name__ == '__main__':

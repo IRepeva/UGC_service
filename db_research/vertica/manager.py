@@ -30,8 +30,11 @@ class VerticaManager(BaseDBManager):
         with self._cursor() as cursor:
             cursor.execute(f'TRUNCATE TABLE {table_name}')
 
-    def insert(self, fake_data: List[Union[Dict, Tuple]],
-               table_name: Optional[str] = DEFAULT_TABLE_NAME):
+    def insert(
+            self,
+            fake_data: List[Union[Dict, Tuple]],
+            table_name: Optional[str] = DEFAULT_TABLE_NAME
+    ):
         insert_query = f'''
             INSERT INTO {table_name} {DEFAULT_TABLE_FIELDS} 
             VALUES (%s,%s,%s,%s)

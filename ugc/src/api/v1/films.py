@@ -16,9 +16,11 @@ from src.utils.authentication import get_token_payload, security
 router = APIRouter()
 
 
-@router.get('/{film_id}/rating',
-            response_model=FilmRating,
-            summary="Get movie rating")
+@router.get(
+    '/{film_id}/rating',
+    response_model=FilmRating,
+    summary='Get movie rating'
+)
 async def film_rating(
         film_id: str,
         like_service: LikeService = Depends(get_like_service)
@@ -38,8 +40,11 @@ async def film_rating(
     return film
 
 
-@router.post("/{film_id}/vote", response_model=FilmVote,
-             summary='Set movie rating')
+@router.post(
+    '/{film_id}/vote',
+    response_model=FilmVote,
+    summary='Set movie rating'
+)
 async def rate_film(
         film_id: str,
         film_vote: FilmVotePost,
@@ -70,8 +75,11 @@ async def rate_film(
     return result
 
 
-@router.delete("/{film_id}/vote", response_model=FilmVote,
-               summary='Delete movie rating')
+@router.delete(
+    '/{film_id}/vote',
+    response_model=FilmVote,
+    summary='Delete movie rating'
+)
 async def delete_film_vote(
         film_id: str,
         like_service: LikeService = Depends(get_like_service),
@@ -95,9 +103,11 @@ async def delete_film_vote(
     return result
 
 
-@router.get('/{film_id}/reviews',
-            response_model=List[FilmReviewDetails],
-            summary="Get movie reviews")
+@router.get(
+    '/{film_id}/reviews',
+    response_model=List[FilmReviewDetails],
+    summary='Get movie reviews'
+)
 async def film_reviews(
         film_id: str,
         sort: str | None = None,
@@ -116,8 +126,11 @@ async def film_reviews(
     return reviews
 
 
-@router.post("/{film_id}/review", response_model=FilmReview,
-             summary='Upsert movie review')
+@router.post(
+    '/{film_id}/review',
+    response_model=FilmReview,
+    summary='Upsert movie review'
+)
 async def review_film(
         film_id: str,
         film_review: FilmReviewPost,
@@ -142,12 +155,16 @@ async def review_film(
     return result
 
 
-@router.delete("/{film_id}/review", response_model=FilmReview,
-               summary='Delete movie review')
+@router.delete(
+    '/{film_id}/review',
+    response_model=FilmReview,
+    summary='Delete movie review'
+)
 async def delete_movie_review(
         film_id: str,
         review_service: ReviewService = Depends(get_review_service),
-        token=Depends(security)) -> FilmReview:
+        token=Depends(security)
+) -> FilmReview:
     token_payload = get_token_payload(token.credentials)
     user_id = token_payload.get('user_id')
     if not user_id:
@@ -165,8 +182,11 @@ async def delete_movie_review(
     return result
 
 
-@router.post("/{film_id}/{review_id}", response_model=ReviewLike,
-             summary='Rate movie review')
+@router.post(
+    '/{film_id}/{review_id}',
+    response_model=ReviewLike,
+    summary='Rate movie review'
+)
 async def rate_review(
         film_id: str,
         review_id: str,
@@ -191,13 +211,17 @@ async def rate_review(
     return result
 
 
-@router.delete("/{film_id}/{review_id}", response_model=ReviewLike,
-               summary='Delete review like')
+@router.delete(
+    '/{film_id}/{review_id}',
+    response_model=ReviewLike,
+    summary='Delete review like'
+)
 async def delete_review_rating(
         film_id: str,
         review_id: str,
         review_service: ReviewService = Depends(get_review_service),
-        token=Depends(security)) -> ReviewLike:
+        token=Depends(security)
+) -> ReviewLike:
     token_payload = get_token_payload(token.credentials)
     user_id = token_payload.get('user_id')
     if not user_id:
@@ -216,8 +240,11 @@ async def delete_review_rating(
     return result
 
 
-@router.post("{film_id}/bookmark", response_model=Bookmark,
-             summary='Add movie to bookmarks')
+@router.post(
+    '{film_id}/bookmark',
+    response_model=Bookmark,
+    summary='Add movie to bookmarks'
+)
 async def add_movie_bookmark(
         film_id: str,
         bookmark_service: BookmarkService = Depends(get_bookmark_service),
@@ -241,8 +268,11 @@ async def add_movie_bookmark(
     return result
 
 
-@router.delete("{film_id}/bookmark", response_model=Bookmark,
-               summary='Delete movie from bookmarks')
+@router.delete(
+    '{film_id}/bookmark',
+    response_model=Bookmark,
+    summary='Delete movie from bookmarks'
+)
 async def delete_movie_bookmark(
         film_id: str,
         bookmark_service: BookmarkService = Depends(get_bookmark_service),
