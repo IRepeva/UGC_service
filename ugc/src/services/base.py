@@ -26,7 +26,11 @@ class BaseService:
         ...
 
     @classmethod
-    def insert(cls, fake_data: List[Dict[str, Any]], collection: Collection):
+    def insert(
+            cls,
+            fake_data: List[Dict[str, Any]],
+            collection: Collection[Any]
+    ):
         try:
             collection.insert_many(fake_data)
         except Exception as exc:

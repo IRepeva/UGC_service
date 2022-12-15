@@ -1,3 +1,5 @@
+from typing import Any, Generator
+
 from db_research.data.models import BaseDataClass
 from db_research.settings import base_settings
 
@@ -16,7 +18,7 @@ class BaseDataGenerator:
     def generate_batch(self, batch_size: int):
         return [self.data_cls.generate_row() for _ in range(batch_size)]
 
-    def generate_data(self):
+    def generate_data(self) -> Generator[list[dict[str, Any]], Any, None]:
         return (
             self.generate_batch(self.batch_size) for _ in
             range(self.batch_count)

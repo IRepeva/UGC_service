@@ -1,4 +1,4 @@
-from typing import Optional, List, Dict, Union, Tuple
+from typing import Optional, List, Dict, Union, Tuple, Any
 
 from clickhouse_driver import Client
 
@@ -19,7 +19,7 @@ class ClickhouseManager(BaseDBManager):
 
     def insert(
             self,
-            fake_data: List[Union[Dict, Tuple]],
+            fake_data: List[Union[Dict[str, Any], Tuple[Any]]],
             table_name: Optional[str] = DEFAULT_TABLE_NAME
     ):
         self.client.execute(f'INSERT INTO {table_name} VALUES', fake_data)

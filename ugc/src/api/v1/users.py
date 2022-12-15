@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from fastapi import APIRouter, Depends, HTTPException
+
 from src.models.user import Bookmarks, UserLikes
 from src.services.bookmark import (
     BookmarkService, get_bookmark_service

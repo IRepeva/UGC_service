@@ -1,6 +1,6 @@
 import time
 from abc import abstractmethod
-from typing import Optional, List, Union, Dict, Tuple
+from typing import Optional, List, Union, Dict, Tuple, Any
 
 from db_research.data.models import BaseDataClass
 from db_research.data_generator import BaseDataGenerator
@@ -34,7 +34,7 @@ class BaseDBManager:
     @abstractmethod
     def insert(
             self,
-            fake_data: List[Union[Dict, Tuple]],
+            fake_data: List[Union[Dict[str, Any], Tuple[Any]]],
             table_name: Optional[str] = DEFAULT_TABLE_NAME
     ):
         ...
@@ -56,7 +56,7 @@ class BaseDBManager:
     @abstractmethod
     def get_data(
             self,
-            query: Union[tuple, list, str],
+            query: Union[tuple[dict[str, Any]], list[dict[str, Any]], str],
             table_name: str = DEFAULT_TABLE_NAME
     ):
         ...
