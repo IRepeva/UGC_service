@@ -9,19 +9,26 @@ from core.logger import LOGGING
 logging_config.dictConfig(LOGGING)
 
 
+class MongoSettings(BaseSettings):
+    HOST: str = Field('127.0.0.1')
+    PORT: int = Field(27017)
+    DB: str = Field('movies')
+
+
 class Settings(BaseSettings):
     # PROJECT
-    PROJECT_NAME = Field('movies', env='PROJECT_NAME')
-    BATCH_SIZE: int = Field(1000, env='BATCH_SIZE')
-    BATCH_COUNT: int = Field(50, env='BATCH_COUNT')
-
-    # MONGO
-    MONGO_HOST: str = Field('127.0.0.1', env='MONGO_HOST')
-    MONGO_PORT: int = Field(27017, env='MONGO_PORT')
-    MONGO_DB: str = Field('movies', env='MONGO_DB')
+    project_name = Field('movies', env='PROJECT_NAME')
+    batch_size: int = Field(1000, env='BATCH_SIZE')
+    batch_count: int = Field(50, env='BATCH_COUNT')
 
     # LOGS
-    SENTRY_DSN: str = Field(..., env='SENTRY_DSN')
+    sentry_dsn: str = Field(..., env='SENTRY_DSN')
+
+    # MONGO
+    DATABASE: MongoSettings = MongoSettings()
+
+    class Config:
+        env_prefix = 'MONGO_'
 
 
 @lru_cache
@@ -29,4 +36,4 @@ def get_settings() -> Settings:
     return Settings()
 
 
-settings: BaseSettings = get_settings()
+settings: Settings = get_settings()

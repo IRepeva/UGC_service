@@ -7,6 +7,7 @@ from faker import Faker
 from fastapi import Depends
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import ReturnDocument
+
 from src.db.mongo import get_mongo
 from src.models.film import FilmReview, FilmReviewDetails, ReviewLike
 from src.services.base import BaseService
@@ -20,8 +21,8 @@ faker = Faker()
 
 
 class ReviewService(BaseService):
-    COLLECTION = 'reviews'
-    DEPENDENT_COLLECTION = 'review_likes'
+    collection_name = 'reviews'
+    dependent_coll_name = 'review_likes'
 
     async def get_film_reviews(
             self,
@@ -33,7 +34,7 @@ class ReviewService(BaseService):
             {'$match': {'movie_id': movie_id}},
             {
                 '$lookup': {
-                    'from': self.DEPENDENT_COLLECTION,
+                    'from': self.dependent_coll_name,
                     'localField': 'review_id',
                     'foreignField': 'review_id',
                     'as': 'review_likes',
@@ -47,7 +48,9 @@ class ReviewService(BaseService):
         if not reviews_cursor:
             return None
 
-        likes_collection = self.database.get_collection(LikeService.COLLECTION)
+        likes_collection = self.database.get_collection(
+            LikeService.collection_name
+        )
 
         user_rating = await likes_collection.find_one(
             {'movie_id': movie_id, 'user_id': user_id},
@@ -74,7 +77,7 @@ class ReviewService(BaseService):
         new_review = await self.collection.find_one_and_replace(
             {'user_id': user_id, 'movie_id': movie_id},
             {
-                'review_id': ':'.join([self.COLLECTION, user_id, movie_id]),
+                'review_id': ':'.join([self.collection_name, user_id, movie_id]),
                 'user_id': user_id,
                 'movie_id': movie_id,
                 'text': text,
@@ -99,7 +102,7 @@ class ReviewService(BaseService):
         if not review:
             return None
 
-        review_likes = self.database.get_collection(self.DEPENDENT_COLLECTION)
+        review_likes = self.database.get_collection(self.dependent_coll_name)
         new_review_like = await review_likes.find_one_and_replace(
             {'user_id': user_id, 'review_id': review_id},
             {'user_id': user_id, 'review_id': review_id, 'rating': rating},
@@ -116,7 +119,7 @@ class ReviewService(BaseService):
         if not review:
             return None
 
-        review_likes = self.database.get_collection(self.DEPENDENT_COLLECTION)
+        review_likes = self.database.get_collection(self.dependent_coll_name)
         deleted = await review_likes.find_one_and_delete(
             {'user_id': user_id, 'review_id': review_id},
             projection={'_id': False},
@@ -127,7 +130,7 @@ class ReviewService(BaseService):
     def generate_row(cls):
         user_id, movie_id = get_random_user(), get_random_movie()
         return {
-            'review_id': ':'.join([cls.COLLECTION, user_id, movie_id]),
+            'review_id': ':'.join([cls.collection_name, user_id, movie_id]),
             'user_id': user_id,
             'movie_id': movie_id,
             'text': faker.text(),
@@ -139,7 +142,7 @@ class ReviewService(BaseService):
         user_id, movie_id = get_random_user(), get_random_movie()
         return {
             'user_id': get_random_user(),
-            'review_id': ':'.join([cls.COLLECTION, user_id, movie_id]),
+            'review_id': ':'.join([cls.collection_name, user_id, movie_id]),
             'rating': random.randint(0, 1),
         }
 

@@ -2,7 +2,6 @@ BASE_LOG_FORMAT = "%(asctime)s.%(msecs)03d - %(levelname)s - %(request_id)s - %(
 NGINX_FORMAT = "%(asctime)s.%(msecs)03d - %(levelname)s - %(client_addr)s - %(request_id)s - '%(request_line)s' - %(status_code)s"
 LOG_DEFAULT_HANDLERS = ['console', ]
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -24,9 +23,9 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
             'formatter': 'base',
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
         },
         'default': {
             'formatter': 'default',

@@ -2,6 +2,7 @@ from functools import lru_cache
 
 from fastapi import Depends
 from motor.motor_asyncio import AsyncIOMotorClient
+
 from src.db.mongo import get_mongo
 from src.models.user import Bookmarks, Bookmark
 from src.services.base import BaseService
@@ -9,7 +10,7 @@ from src.utils.data_generation import get_random_user, get_random_movie
 
 
 class BookmarkService(BaseService):
-    COLLECTION = 'bookmarks'
+    collection_name = 'bookmarks'
 
     async def get_user_bookmarks(self, user_id: str):
         bookmarks_cursor = self.collection.find({'user_id': user_id})

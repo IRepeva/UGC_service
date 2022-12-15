@@ -50,7 +50,7 @@ def get_mongo_settings() -> MongoSettings:
     return MongoSettings()
 
 
-base_settings: BaseSettings = get_base_settings()
-ch_settings: BaseSettings = get_ch_settings()
-vertica_settings: BaseSettings = get_vertica_settings()
-mongo_settings: BaseSettings = get_mongo_settings()
+base_settings: BaseConfig = get_base_settings()
+ch_settings: ClickhouseSettings = get_ch_settings()
+vertica_settings: VerticaSettings = get_vertica_settings()
+mongo_settings: MongoSettings = get_mongo_settings()

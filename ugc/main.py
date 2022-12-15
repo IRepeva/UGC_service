@@ -21,7 +21,7 @@ _request_id = contextvars.ContextVar(
 )
 
 app = FastAPI(
-    title=settings.PROJECT_NAME,
+    title=settings.project_name,
     docs_url='/api/openapi',
     openapi_url='/api/openapi.json',
     default_response_class=ORJSONResponse,
@@ -56,7 +56,7 @@ app.logger.addHandler(logstash_handler)
 
 @app.on_event('startup')
 async def startup():
-    mongo_uri = f"mongodb://{settings.MONGO_HOST}:{settings.MONGO_PORT}"
+    mongo_uri = f"mongodb://{settings.DATABASE.HOST}:{settings.DATABASE.PORT}"
     try:
         mongo.mongo = AsyncIOMotorClient(mongo_uri)
         logging.info('mongodb %s successfully connected', mongo_uri)

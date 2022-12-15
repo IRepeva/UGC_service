@@ -9,12 +9,12 @@ from core.settings import settings
 
 
 class BaseService:
-    COLLECTION: Optional[str] = None
-    DEPENDENT_COLLECTION: Optional[str] = None
+    collection_name: Optional[str] = None
+    dependent_coll_name: Optional[str] = None
 
     def __init__(self, mongo: AsyncIOMotorClient):
-        self.database = mongo.get_database(settings.MONGO_DB)
-        self.collection = self.database.get_collection(self.COLLECTION)
+        self.database = mongo.get_database(settings.DATABASE.DB)
+        self.collection = self.database.get_collection(self.collection_name)
 
     @classmethod
     @abstractmethod
