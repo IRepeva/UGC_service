@@ -46,7 +46,7 @@ jobs:
           message: |
             ${{ github.repository }} repository:
             
-            ${{ github.actor }} created ${{ github.event.name }}:
+            ${{ github.actor }} created commit:
             Pipeline failed!
             
             See details: https://github.com/${{ github.repository }}/actions
@@ -60,7 +60,11 @@ jobs:
           message: |
             ${{ github.repository }} repository:
             
-            ${{ github.actor }} created ${{ github.event.name }}:
+            ${{ github.actor }} created commit:
             Pipeline finished successfully!
             
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+      - name: Check with Mypy
+        run: |
+          mypy . --ignore-missing-imports --allow-untyped-decorators
