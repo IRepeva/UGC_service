@@ -41,6 +41,28 @@ jobs:
           path: flake-report
           if-no-files-found: ignore
 
-      - name: Check with Mypy
-        run: |
-          mypy . --ignore-missing-imports --allow-untyped-decorators
+#      - name: Check with Mypy
+#        run: |
+#          mypy . --ignore-missing-imports --allow-untyped-decorators
+
+      - name: Send telegram message on pull-request (fail)
+        if: ${{ failure() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.repository }} repository.
+            ${{ github.actor }} created PR:
+            Pipeline ${{github.sha}} python version ${{ matrix.python-version }} finished with error!
+
+      - name: Send telegram message on pull-request (successful)
+        if: ${{ success() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.repository }} repository.
+            ${{ github.actor }} created PR:
+            Pipeline for ${{github.sha}} python version ${{ matrix.python-version }} finished successfully!
