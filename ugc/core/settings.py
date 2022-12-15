@@ -1,8 +1,9 @@
 from functools import lru_cache
 from logging import config as logging_config
 
-from core.logger import LOGGING
 from pydantic import BaseSettings, Field
+
+from core.logger import LOGGING
 
 # LOGGING
 logging_config.dictConfig(LOGGING)
@@ -28,4 +29,4 @@ def get_settings() -> Settings:
     return Settings()
 
 
-settings = get_settings()
+settings: BaseSettings = get_settings()
